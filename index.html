@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estados de Dispositivos</title>
+    <style>
+        body {
+            background-color: green; /* Establecer el color de fondo del body en verde */
+        }
+    </style>
+</head>
+<body>
+    <h1>Estados de Dispositivos</h1>
+    <div id="dispositivos-list"></div> <!-- Cambiado el id a dispositivos-list -->
+
+    <script>
+        async function obtenerEstadosDispositivos() {
+            try {
+                const respuesta = await fetch('/obtener_estados_dispositivos');
+                const data = await respuesta.json();
+                
+                const dispositivosList = document.getElementById('dispositivos-list'); // Seleccionar por el nuevo id
+                dispositivosList.innerHTML = ''; // Limpiar el contenido previo
+
+                data.forEach(dispositivo => {
+                    const h1 = document.createElement('h1');
+                    h1.textContent = `Dispositivo ${dispositivo.ip}: ${dispositivo.nombre}`;
+                    dispositivosList.appendChild(h1);
+                });
+            } catch (error) {
+                console.error('Error al obtener los estados de los dispositivos:', error);
+            }
+        }
+
+        obtenerEstadosDispositivos();
+
+        setInterval(obtenerEstadosDispositivos, 5000); // Actualizar cada 5 segundos
+    </script>
+</body>
+</html>
+
+
